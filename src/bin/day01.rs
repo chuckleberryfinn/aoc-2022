@@ -1,5 +1,3 @@
-use aoc::*;
-
 fn get_inputs() -> Vec<u32> {
     include_str!("../../input/day01.txt")
         .split("\n\n")
@@ -16,10 +14,9 @@ fn result(n: usize) -> u32 {
         .sum()
 }
 
-fn main() -> Result<()> {
+fn main() {
     println!("Part 1 {}", result(1));
     println!("Part 2 {}", result(3));
-    Ok(())
 }
 
 #[cfg(test)]
