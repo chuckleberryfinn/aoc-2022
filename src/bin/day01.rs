@@ -1,9 +1,11 @@
+use itertools::Itertools;
+
 fn get_inputs() -> Vec<u32> {
     include_str!("../../input/day01.txt")
         .split("\n\n")
         .map(|s| s.lines().map(|c| c.trim().parse::<u32>().unwrap()).sum())
-        .collect::<std::collections::BinaryHeap<u32>>()
-        .into_sorted_vec()
+        .sorted()
+        .collect()
 }
 
 fn result(n: usize) -> u32 {
