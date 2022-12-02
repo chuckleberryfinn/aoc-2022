@@ -7,11 +7,7 @@ fn get_inputs() -> Vec<u32> {
 }
 
 fn result(n: usize) -> u32 {
-    get_inputs()
-        .iter()
-        .rev()
-        .take(n)
-        .sum()
+    get_inputs().iter().rev().take(n).sum()
 }
 
 fn main() {
