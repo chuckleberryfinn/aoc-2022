@@ -22,12 +22,12 @@ mod tests {
     use super::*;
 
     #[test]
-    fn part_1() {
+    fn test_part1() {
         assert!(result(1) == 69_310);
     }
 
     #[test]
-    fn part_2() {
+    fn test_part2() {
         assert!(result(3) == 206_104);
     }
 }
