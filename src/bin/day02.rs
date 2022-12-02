@@ -9,28 +9,28 @@ fn get_inputs() -> Vec<(&'static str, &'static str)> {
 }
 
 fn part1() -> usize {
-    let results = HashMap::from([
+    let moves = HashMap::from([
         ("A", HashMap::from([("X", 4), ("Y", 8), ("Z", 3)])),
         ("B", HashMap::from([("X", 1), ("Y", 5), ("Z", 9)])),
         ("C", HashMap::from([("X", 7), ("Y", 2), ("Z", 6)])),
     ]);
 
-    result(&results)
+    decode(&moves)
 }
 
 fn part2() -> usize {
-    let results = HashMap::from([
+    let moves = HashMap::from([
         ("A", HashMap::from([("X", 3), ("Y", 4), ("Z", 8)])),
         ("B", HashMap::from([("X", 1), ("Y", 5), ("Z", 9)])),
         ("C", HashMap::from([("X", 2), ("Y", 6), ("Z", 7)])),
     ]);
 
-    result(&results)
+    decode(&moves)
 }
 
-fn result(results: &HashMap<&str, HashMap<&str, usize>>) -> usize {
+fn decode(moves: &HashMap<&str, HashMap<&str, usize>>) -> usize {
     get_inputs().iter().fold(0, |t, round| {
-        t + results.get(round.0).unwrap().get(round.1).unwrap()
+        t + moves.get(round.0).unwrap().get(round.1).unwrap()
     })
 }
 
