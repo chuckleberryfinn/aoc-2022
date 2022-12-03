@@ -1,24 +1,24 @@
 use std::collections::HashSet;
 
-fn get_inputs() -> Vec<Vec<u8>> {
+fn get_inputs() -> Vec<Vec<usize>> {
     include_str!("../../input/day03.txt")
         .lines()
-        .map(|l| {
+        .map(|l|
             l.as_bytes()
                 .iter()
-                .map(|&b| if b >= 96 { b % 96 } else { b - 38 })
+                .map(|&b| if b >= 96 { (b % 96) as usize } else { (b - 38) as usize })
                 .collect()
-        })
+        )
         .collect()
 }
 
-fn intersect(s1: &[u8], s2: &[u8]) -> Vec<u8> {
+fn intersect(s1: &[usize], s2: &[usize]) -> Vec<usize> {
     s1.iter()
-        .cloned()
-        .collect::<HashSet<u8>>()
-        .intersection(&s2.iter().cloned().collect::<HashSet<u8>>())
-        .cloned()
-        .collect::<Vec<u8>>()
+        .copied()
+        .collect::<HashSet<usize>>()
+        .intersection(&s2.iter().copied().collect::<HashSet<usize>>())
+        .copied()
+        .collect::<Vec<usize>>()
 }
 
 fn part1() -> usize {
@@ -26,7 +26,6 @@ fn part1() -> usize {
         .iter()
         .map(|s| s.split_at(s.len() / 2))
         .map(|l| intersect(&l.0, &l.1)[0])
-        .map(|i| i as usize)
         .sum()
 }
 
@@ -34,7 +33,6 @@ fn part2() -> usize {
     get_inputs()
         .chunks(3)
         .map(|l| intersect(&intersect(&l[0], &l[1]), &l[2])[0])
-        .map(|i| i as usize)
         .sum()
 }
 
