@@ -12,19 +12,20 @@ fn get_inputs() -> Vec<Vec<u8>> {
         .collect()
 }
 
+fn intersect(s1: &[u8], s2: &[u8]) -> Vec<u8> {
+    s1.iter()
+        .cloned()
+        .collect::<HashSet<u8>>()
+        .intersection(&s2.iter().cloned().collect::<HashSet<u8>>())
+        .cloned()
+        .collect::<Vec<u8>>()
+}
+
 fn part1() -> usize {
     get_inputs()
         .iter()
         .map(|s| s.split_at(s.len() / 2))
-        .map(|l| {
-            *(l.0
-                .iter()
-                .cloned()
-                .collect::<HashSet<u8>>()
-                .intersection(&l.1.iter().cloned().collect::<HashSet<u8>>()))
-            .next()
-            .unwrap()
-        })
+        .map(|l| intersect(&l.0, &l.1)[0])
         .map(|i| i as usize)
         .sum()
 }
@@ -32,18 +33,7 @@ fn part1() -> usize {
 fn part2() -> usize {
     get_inputs()
         .chunks(3)
-        .map(|l| {
-            *(l[0]
-                .iter()
-                .cloned()
-                .collect::<HashSet<u8>>()
-                .intersection(&l[1].iter().cloned().collect::<HashSet<u8>>()))
-            .cloned()
-            .collect::<HashSet<u8>>()
-            .intersection(&l[2].iter().cloned().collect::<HashSet<u8>>())
-            .next()
-            .unwrap()
-        })
+        .map(|l| intersect(&intersect(&l[0], &l[1]), &l[2])[0])
         .map(|i| i as usize)
         .sum()
 }
