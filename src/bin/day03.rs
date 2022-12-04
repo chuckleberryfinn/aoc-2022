@@ -3,12 +3,18 @@ use std::collections::HashSet;
 fn get_inputs() -> Vec<Vec<usize>> {
     include_str!("../../input/day03.txt")
         .lines()
-        .map(|l|
+        .map(|l| {
             l.as_bytes()
                 .iter()
-                .map(|&b| if b >= 96 { (b % 96) as usize } else { (b - 38) as usize })
+                .map(|&b| {
+                    if b >= 96 {
+                        (b % 96) as usize
+                    } else {
+                        (b - 38) as usize
+                    }
+                })
                 .collect()
-        )
+        })
         .collect()
 }
 
