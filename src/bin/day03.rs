@@ -6,13 +6,7 @@ fn get_inputs() -> Vec<Vec<usize>> {
         .map(|l| {
             l.as_bytes()
                 .iter()
-                .map(|&b| {
-                    if b >= 96 {
-                        (b % 96) as usize
-                    } else {
-                        (b - 38) as usize
-                    }
-                })
+                .map(|&b| ((b - 38) % 58) as usize)
                 .collect()
         })
         .collect()
