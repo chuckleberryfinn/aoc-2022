@@ -20,10 +20,11 @@ fn part1() -> usize {
         .count()
 }
 
+#[allow(clippy::nonminimal_bool)]
 fn part2() -> usize {
     get_inputs()
         .iter()
-        .filter(|c| !((c.2 < c.0 || c.1 < c.2) && c.0 > c.3 || c.0 < c.2 && c.1 < c.2 && c.3 > c.1))
+        .filter(|c| (c.0 >= c.2 && c.0 <= c.3) || (c.1 >= c.2 && c.0 <= c.3) || (c.2 >= c.0 && c.2 <= c.1)|| (c.3 >= c.0 && c.3 <= c.1))
         .count()
 }
 
