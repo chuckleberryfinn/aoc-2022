@@ -31,7 +31,7 @@ fn part1() -> usize {
     get_inputs()
         .iter()
         .map(|s| s.split_at(s.len() / 2))
-        .map(|l| intersect(&l.0, &l.1)[0])
+        .map(|l| intersect(l.0, l.1)[0])
         .sum()
 }
 
