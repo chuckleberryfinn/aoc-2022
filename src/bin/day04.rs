@@ -1,13 +1,11 @@
-fn get_inputs() -> Vec<(usize, usize, usize, usize)> {
+fn get_inputs() -> Vec<((usize, usize), (usize, usize))> {
     include_str!("../../input/day04.txt")
         .lines()
         .map(|s| s.split(|c| c == ',' || c == '-').collect())
         .map(|x: Vec<&str>| {
             (
-                x[0].parse().unwrap(),
-                x[1].parse().unwrap(),
-                x[2].parse().unwrap(),
-                x[3].parse().unwrap(),
+                (x[0].parse().unwrap(), x[1].parse().unwrap()),
+                (x[2].parse().unwrap(), x[3].parse().unwrap()),
             )
         })
         .collect()
@@ -16,7 +14,7 @@ fn get_inputs() -> Vec<(usize, usize, usize, usize)> {
 fn part1() -> usize {
     get_inputs()
         .iter()
-        .filter(|c| (c.0 >= c.2 && c.1 <= c.3) || (c.2 >= c.0 && c.3 <= c.1))
+        .filter(|(a, b)| (a.0 >= b.0 && a.1 <= b.1) || (b.0 >= a.0 && b.1 <= a.1))
         .count()
 }
 
@@ -24,7 +22,12 @@ fn part1() -> usize {
 fn part2() -> usize {
     get_inputs()
         .iter()
-        .filter(|c| (c.0 >= c.2 && c.0 <= c.3) || (c.1 >= c.2 && c.0 <= c.3) || (c.2 >= c.0 && c.2 <= c.1)|| (c.3 >= c.0 && c.3 <= c.1))
+        .filter(|(a, b)| {
+            (a.0 >= b.0 && a.0 <= b.1)
+                || (a.1 >= b.0 && a.0 <= b.1)
+                || (b.0 >= a.0 && b.0 <= a.1)
+                || (b.1 >= a.0 && b.1 <= a.1)
+        })
         .count()
 }
 
