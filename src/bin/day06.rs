@@ -3,7 +3,7 @@ use itertools::Itertools;
 fn get_inputs(window: usize) -> Vec<Vec<u8>> {
     include_bytes!("../../input/day06.txt")
         .windows(window)
-        .map(|w|w.to_vec())
+        .map(|w| w.to_vec())
         .collect()
 }
 
@@ -12,7 +12,9 @@ fn result(window: usize) -> usize {
         .iter()
         .enumerate()
         .find(|(_, g)| g.iter().unique().count() == window)
-        .unwrap().0 + window
+        .unwrap()
+        .0
+        + window
 }
 
 fn main() {
