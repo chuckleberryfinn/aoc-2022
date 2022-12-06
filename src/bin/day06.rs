@@ -1,9 +1,7 @@
 use itertools::Itertools;
 
-fn get_inputs(window: usize) -> Vec<Vec<char>> {
-    include_str!("../../input/day06.txt")
-        .chars()
-        .collect::<Vec<char>>()
+fn get_inputs(window: usize) -> Vec<Vec<u8>> {
+    include_bytes!("../../input/day06.txt")
         .windows(window)
         .map(|w|w.to_vec())
         .collect()
