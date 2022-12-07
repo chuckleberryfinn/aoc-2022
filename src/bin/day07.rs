@@ -37,7 +37,7 @@ fn part1() -> usize {
 
 fn part2() -> usize {
     let levels = get_levels();
-    let required = *levels.iter().last().unwrap();
+    let required = *levels.last().unwrap();
     *levels
         .iter()
         .filter(|&&l| l >= 30_000_000 - (70_000_000 - required))
