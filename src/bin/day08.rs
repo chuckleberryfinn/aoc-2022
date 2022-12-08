@@ -40,16 +40,16 @@ fn can_see(trees: &[Vec<u32>], i: usize, j: usize, x: usize) -> usize {
             .rev()
             .find(|&y| trees[y][j] >= v)
             .unwrap_or(0)),
-        (i+1..x)
-            .find(|&y| trees[y][j] >= v)
-            .unwrap_or(x) - i,
         (j - (0..j)
             .rev()
             .find(|&y| trees[i][y] >= v)
             .unwrap_or(0)),
+        (i+1..x)
+            .find(|&y| trees[y][j] >= v)
+            .unwrap_or(x-1) - i,
         ((j+1..x)
             .find(|&y| trees[i][y] >= v)
-            .unwrap_or(x) - (j+1))
+            .unwrap_or(x-1) - j)
     ]
     .iter()
     .product()
