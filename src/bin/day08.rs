@@ -6,10 +6,8 @@ fn get_inputs() -> Vec<Vec<u32>> {
 }
 
 fn is_visible(trees: &[Vec<u32>], i: usize, j: usize, l: usize) -> bool {
-    let rows = trees[i]
-        .iter()
-        .enumerate()
-        .map(|(x, &t)| i == 0 || i == (l-1) || j == (l-1) || j == 0 || x == j || t < trees[i][j])
+    let rows = (0..l)
+        .map(|x| i == 0 || i == (l-1) || j == (l-1) || j == 0 || x == j || trees[i][x] < trees[i][j])
         .collect::<Vec<bool>>();
 
     let cols = (0..l)
@@ -36,20 +34,10 @@ fn part1() -> usize {
 fn can_see(trees: &[Vec<u32>], i: usize, j: usize, x: usize) -> usize {
     let v = trees[i][j];
     vec![
-        i - (0..i)
-            .rev()
-            .find(|&y| trees[y][j] >= v)
-            .unwrap_or(0),
-        j - (0..j)
-            .rev()
-            .find(|&y| trees[i][y] >= v)
-            .unwrap_or(0),
-        (i+1..x)
-            .find(|&y| trees[y][j] >= v)
-            .unwrap_or(x-1) - i,
-        (j+1..x)
-            .find(|&y| trees[i][y] >= v)
-            .unwrap_or(x-1) - j
+        i - (0..i).rev().find(|&y| trees[y][j] >= v).unwrap_or(0),
+        j - (0..j).rev().find(|&y| trees[i][y] >= v).unwrap_or(0),
+        (i + 1..x).find(|&y| trees[y][j] >= v).unwrap_or(x - 1) - i,
+        (j + 1..x).find(|&y| trees[i][y] >= v).unwrap_or(x - 1) - j,
     ]
     .iter()
     .product()
@@ -60,10 +48,11 @@ fn part2() -> usize {
     let x = trees.len();
 
     (0..x)
-        .flat_map(|i| (0..x)
-            .map(|j| can_see(&trees, i, j, x))
-            .collect::<Vec<usize>>()
-        )
+        .flat_map(|i| {
+            (0..x)
+                .map(|j| can_see(&trees, i, j, x))
+                .collect::<Vec<usize>>()
+        })
         .max()
         .unwrap()
 }
