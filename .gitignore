@@ -1,3 +1,4 @@
 /target
+/input
 /Cargo.lock
 *.code-workspace
