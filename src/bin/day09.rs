@@ -1,13 +1,19 @@
 use std::collections::HashSet;
 fn get_inputs() -> Vec<(char, i32)> {
     include_str!("../../input/day09.txt")
-    .lines()
-    .map(|l| l.split_once(' ').map(|(d, c)| (d.chars().next().unwrap(), c.parse::<i32>().unwrap())).unwrap())
-    .collect()
+        .lines()
+        .map(|l| {
+            l.split_once(' ')
+                .map(|(d, c)| (d.chars().next().unwrap(), c.parse::<i32>().unwrap()))
+                .unwrap()
+        })
+        .collect()
 }
 
 fn is_adjacent(head: &(i32, i32), tail: &(i32, i32)) -> bool {
-    (head.0 == tail.0 && (head.1 - tail.1).abs() <= 1) || (head.1 == tail.1 && (head.0 - tail.0).abs() <= 1) || ((head.0 - tail.0).abs() <= 1 && (head.1 - tail.1).abs() <= 1)
+    (head.0 == tail.0 && (head.1 - tail.1).abs() <= 1)
+        || (head.1 == tail.1 && (head.0 - tail.0).abs() <= 1)
+        || ((head.0 - tail.0).abs() <= 1 && (head.1 - tail.1).abs() <= 1)
 }
 
 fn result(length: usize) -> usize {
@@ -25,29 +31,28 @@ fn result(length: usize) -> usize {
                         'L' => knots[0].1 -= 1,
                         _ => knots[0].1 += 1,
                     };
-            
                     *(0..n)
                         .map(|x| {
-                            match is_adjacent(&knots[x], &knots[x+1]) {
-                                true => knots[x+1],
+                            match is_adjacent(&knots[x], &knots[x + 1]) {
+                                true => (),
                                 false => {
-                                    if knots[x+1].0 < knots[x].0 {
-                                        knots[x+1].0 += 1;
-                                    } else if knots[x+1].0 > knots[x].0 {
-                                        knots[x+1].0 -= 1;
-                                    }
-                                    if knots[x+1].1 < knots[x].1 {
-                                        knots[x+1].1 += 1;
-                                    } else if knots[x+1].1 > knots[x].1 {
-                                        knots[x+1].1 -= 1;
-                                    }
-                                    knots[x+1]
+                                    match knots[x + 1].0.cmp(&knots[x].0) {
+                                        std::cmp::Ordering::Less => knots[x + 1].0 += 1,
+                                        std::cmp::Ordering::Greater => knots[x + 1].0 -= 1,
+                                        _ => (),
+                                    };
+                                    match knots[x + 1].1.cmp(&knots[x].1) {
+                                        std::cmp::Ordering::Less => knots[x + 1].1 += 1,
+                                        std::cmp::Ordering::Greater => knots[x + 1].1 -= 1,
+                                        _ => (),
+                                    };
                                 }
                             }
+                            knots[x + 1]
                         })
-                    .collect::<Vec<(i32, i32)>>()
-                    .last()
-                    .unwrap()
+                        .collect::<Vec<(i32, i32)>>()
+                        .last()
+                        .unwrap()
                 })
                 .collect::<Vec<(i32, i32)>>()
         })
