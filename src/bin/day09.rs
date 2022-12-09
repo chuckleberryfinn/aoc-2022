@@ -31,29 +31,15 @@ fn result(length: usize) -> usize {
                             match is_adjacent(&knots[x], &knots[x+1]) {
                                 true => knots[x+1],
                                 false => {
-                                    if knots[x].0 == knots[x+1].0 {
-                                        if knots[x+1].1 < knots[x].1 {
-                                            knots[x+1].1 += 1;
-                                        } else {
-                                            knots[x+1].1 -= 1;
-                                        }
-                                    } else if knots[x].1 == knots[x+1].1 {
-                                        if knots[x+1].0 < knots[x].0 {
-                                            knots[x+1].0 += 1;
-                                        } else {
-                                            knots[x+1].0 -= 1;
-                                        }
-                                    } else {
-                                        if knots[x+1].0 < knots[x].0 {
-                                            knots[x+1].0 += 1;
-                                        } else {
-                                            knots[x+1].0 -= 1;
-                                        }
-                                        if knots[x+1].1 < knots[x].1 {
-                                            knots[x+1].1 += 1;
-                                        } else {
-                                            knots[x+1].1 -= 1;
-                                        }
+                                    if knots[x+1].0 < knots[x].0 {
+                                        knots[x+1].0 += 1;
+                                    } else if knots[x+1].0 > knots[x].0 {
+                                        knots[x+1].0 -= 1;
+                                    }
+                                    if knots[x+1].1 < knots[x].1 {
+                                        knots[x+1].1 += 1;
+                                    } else if knots[x+1].1 > knots[x].1 {
+                                        knots[x+1].1 -= 1;
                                     }
                                     knots[x+1]
                                 }
