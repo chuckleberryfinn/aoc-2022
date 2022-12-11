@@ -1,8 +1,6 @@
 use regex::Regex;
 fn get_inputs() -> Vec<&'static str> {
-    include_str!("../../input/day07.txt")
-    .lines()
-    .collect()
+    include_str!("../../input/day07.txt").lines().collect()
 }
 
 fn get_levels() -> Vec<usize> {
@@ -29,10 +27,7 @@ fn get_levels() -> Vec<usize> {
 }
 
 fn part1() -> usize {
-    get_levels()
-        .iter()
-        .filter(|&&l| l <= 100_000)
-        .sum()
+    get_levels().iter().filter(|&&l| l <= 100_000).sum()
 }
 
 fn part2() -> usize {
