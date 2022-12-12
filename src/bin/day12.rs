@@ -31,7 +31,6 @@ fn get_inputs() -> (Vec<Vec<u8>>, Vec<(i32, i32)>, (i32, i32)) {
 fn bfs(grid: &Vec<Vec<u8>>, s: &(i32, i32), e: &(i32, i32)) -> Option<usize> {
     let rows = grid.len() as i32;
     let cols = grid[0].len() as i32;
-    let mut paths: Vec<Vec<(i32, i32)>> = vec![];
     let mut q: VecDeque<Vec<(i32, i32)>> = VecDeque::from([vec![*s]]);
     let mut seen: HashSet<(i32, i32)> = HashSet::new();
     let deltas = [(-1, 0), (0, -1), (1, 0), (0, 1)];
@@ -58,16 +57,15 @@ fn bfs(grid: &Vec<Vec<u8>>, s: &(i32, i32), e: &(i32, i32)) -> Option<usize> {
                 seen.insert(current_coord);
                 let mut x = current_path.clone();
                 if current_coord == *e {
-                    paths.push(x)
-                } else {
-                    x.push(current_coord);
-                    q.push_back(x);
+                    return Some(x.len());
                 }
+                x.push(current_coord);
+                q.push_back(x);
             }
         }
     }
 
-    paths.iter().map(|p| p.len()).min()
+    None
 }
 
 fn part1() -> usize {
