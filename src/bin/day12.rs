@@ -8,22 +8,22 @@ fn get_inputs() -> (Vec<Vec<u8>>, (i32, i32), (i32, i32), Vec<(i32, i32)>) {
         .collect();
 
     let mut s = (0, 0);
-    let mut starts: Vec<(i32, i32)> = vec![];
     let mut e = (0, 0);
-    
+    let mut starts: Vec<(i32, i32)> = vec![];
+
     for (x, row) in (0..).zip(grid.iter()) {
         for (y, col) in (0..).zip(row.iter()) {
-            if *col == 'S' as u8 {
+            if *col == b'S' {
                 s = (x, y);
-            } else if *col == 'E' as u8 {
+            } else if *col == b'E' {
                 e = (x, y);
-            } else if *col == 'a' as u8 {
+            } else if *col == b'a' {
                 starts.push((x, y));
             }
         }
     }
-    grid[s.0 as usize][s.1 as usize] = 'a' as u8;
-    grid[e.0 as usize][e.1 as usize] = 'z' as u8;
+    grid[s.0 as usize][s.1 as usize] = b'a';
+    grid[e.0 as usize][e.1 as usize] = b'z';
 
     (grid, s, e, starts)
 }
@@ -32,8 +32,8 @@ fn bfs(grid: &Vec<Vec<u8>>, s: &(i32, i32), e: &(i32, i32)) -> Option<usize> {
     let rows = grid.len() as i32;
     let cols = grid[0].len() as i32;
     let mut paths: Vec<Vec<(i32, i32)>> = vec![];
-    let mut q: VecDeque::<Vec<(i32, i32)>> = VecDeque::from([vec![*s]]);
-    let mut seen: HashSet::<(i32, i32)> = HashSet::new();
+    let mut q: VecDeque<Vec<(i32, i32)>> = VecDeque::from([vec![*s]]);
+    let mut seen: HashSet<(i32, i32)> = HashSet::new();
     let deltas = [(-1, 0), (0, -1), (1, 0), (0, 1)];
 
     while !q.is_empty() {
@@ -45,8 +45,12 @@ fn bfs(grid: &Vec<Vec<u8>>, s: &(i32, i32), e: &(i32, i32)) -> Option<usize> {
 
             for delta in deltas {
                 let current_coord = (r + delta.0, c + delta.1);
-                if current_coord.0 < 0 || current_coord.0 >= rows || current_coord.1 < 0 || current_coord.1 >= cols ||
-                    seen.contains(&current_coord) || (current_char as u8) < (grid[current_coord.0 as usize][current_coord.1 as usize] as u8) - 1
+                if current_coord.0 < 0
+                    || current_coord.0 >= rows
+                    || current_coord.1 < 0
+                    || current_coord.1 >= cols
+                    || seen.contains(&current_coord)
+                    || current_char < grid[current_coord.0 as usize][current_coord.1 as usize] - 1
                 {
                     continue;
                 }
@@ -84,7 +88,6 @@ fn main() {
     println!("{}", part1());
     println!("{}", part2());
 }
-
 
 #[cfg(test)]
 mod tests {
