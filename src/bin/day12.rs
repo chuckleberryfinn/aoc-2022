@@ -1,7 +1,7 @@
 use std::collections::HashSet;
 use std::collections::VecDeque;
 
-fn get_inputs() -> (Vec<Vec<u8>>, (i32, i32), (i32, i32), Vec<(i32, i32)>) {
+fn get_inputs() -> (Vec<Vec<u8>>, Vec<(i32, i32)>, (i32, i32)) {
     let mut grid: Vec<Vec<u8>> = include_str!("../../input/day12.txt")
         .lines()
         .map(|l| l.bytes().collect())
@@ -25,7 +25,7 @@ fn get_inputs() -> (Vec<Vec<u8>>, (i32, i32), (i32, i32), Vec<(i32, i32)>) {
     grid[s.0 as usize][s.1 as usize] = b'a';
     grid[e.0 as usize][e.1 as usize] = b'z';
 
-    (grid, s, e, starts)
+    (grid, std::iter::once(s).chain(starts.into_iter()).collect(), e)
 }
 
 fn bfs(grid: &Vec<Vec<u8>>, s: &(i32, i32), e: &(i32, i32)) -> Option<usize> {
@@ -71,12 +71,12 @@ fn bfs(grid: &Vec<Vec<u8>>, s: &(i32, i32), e: &(i32, i32)) -> Option<usize> {
 }
 
 fn part1() -> usize {
-    let (grid, s, e, _) = get_inputs();
-    bfs(&grid, &s, &e).unwrap()
+    let (grid, starts, e) = get_inputs();
+    bfs(&grid, &starts[0], &e).unwrap()
 }
 
 fn part2() -> usize {
-    let (grid, _, e, starts) = get_inputs();
+    let (grid, starts, e) = get_inputs();
     starts
         .iter()
         .filter_map(|s| bfs(&grid, s, &e))
