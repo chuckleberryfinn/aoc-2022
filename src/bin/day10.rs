@@ -1,8 +1,7 @@
 use itertools::Itertools;
 
 fn get_inputs() -> Vec<i32> {
-    vec![1]
-        .into_iter()
+    std::iter::once(1)
         .chain(
             include_str!("../../input/day10.txt")
                 .lines()
@@ -20,18 +19,19 @@ fn get_inputs() -> Vec<i32> {
 }
 
 fn part1() -> i32 {
-    get_inputs().iter().zip(0..).fold(0, |acc, (x, i)| match i {
-        19 | 59 | 99 | 139 | 179 | 219 => acc + ((i + 1) * x),
-        _ => acc,
-    })
+    (0..)
+        .zip(get_inputs().iter())
+        .fold(0, |acc, (i, x)| match i {
+            19 | 59 | 99 | 139 | 179 | 219 => acc + ((i + 1) * x),
+            _ => acc,
+        })
 }
 
 #[allow(unstable_name_collisions)]
 fn part2() -> String {
-    get_inputs()
-        .iter()
-        .zip(0..)
-        .map(|(r, i)| match ((r - 1)..(r + 2)).contains(&(i % 40)) {
+    (0..)
+        .zip(get_inputs().iter())
+        .map(|(i, r)| match ((r - 1)..(r + 2)).contains(&(i % 40)) {
             true => match i % 40 {
                 0 => "\n#",
                 _ => "#",
