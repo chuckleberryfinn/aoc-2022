@@ -11,11 +11,11 @@ fn get_inputs() -> Vec<(&'static str, &'static str)> {
 
 fn cmp(left: &'static str, right: &'static str) -> Ordering {
     if left.is_empty() {
-        return Ordering::Less;
+        return Ordering::Greater;
     }
 
     if right.is_empty() {
-        return Ordering::Greater;
+        return Ordering::Less;
     }
 
     let lhs = left.chars().next().unwrap();
@@ -41,11 +41,11 @@ fn cmp(left: &'static str, right: &'static str) -> Ordering {
         let r = right[..i].parse::<u32>().unwrap();
 
         if l < r {
-            return Ordering::Greater;
+            return Ordering::Less;
         }
 
         if r < l {
-            return Ordering::Less;
+            return Ordering::Greater;
         }
 
         return cmp(&left[1..], &right[1..]);
@@ -56,11 +56,11 @@ fn cmp(left: &'static str, right: &'static str) -> Ordering {
     }
 
     if lhs == ']' && rhs != ']' {
-        return Ordering::Greater;
+        return Ordering::Less;
     }
 
     if rhs == ']' {
-        return Ordering::Less;
+        return Ordering::Greater;
     }
 
     if lhs.is_ascii_digit() {
@@ -78,7 +78,7 @@ fn cmp(left: &'static str, right: &'static str) -> Ordering {
             if right[i..i+1].parse::<u32>().is_ok() {
                 break;
             } else if right.chars().nth(i).unwrap() == ']' {
-                return Ordering::Less;
+                return Ordering::Greater;
             }
             i += 1;
         };
@@ -92,15 +92,15 @@ fn cmp(left: &'static str, right: &'static str) -> Ordering {
         let r = right[s..i].parse::<u32>().unwrap();
 
         if l <  r {
-            return Ordering::Greater;
-        }
-
-        if l > r {
             return Ordering::Less;
         }
 
-        if right.chars().nth(i+1).unwrap() != ']' {
+        if l > r {
             return Ordering::Greater;
+        }
+
+        if right.chars().nth(i+1).unwrap() != ']' {
+            return Ordering::Less;
         }
 
         return cmp(&left[1..], &right[i+2..]);
@@ -121,7 +121,7 @@ fn cmp(left: &'static str, right: &'static str) -> Ordering {
             if left[i..i+1].parse::<u32>().is_ok() {
                 break;
             } else if left.chars().nth(i).unwrap() == ']' {
-                return Ordering::Greater;
+                return Ordering::Less;
             }
             i += 1;
         };
@@ -135,15 +135,15 @@ fn cmp(left: &'static str, right: &'static str) -> Ordering {
         let l = left[s..i].parse::<u32>().unwrap();
 
         if l < r {
-            return Ordering::Greater;
+            return Ordering::Less;
         }
 
         if l > r {
-            return Ordering::Less;
+            return Ordering::Greater;
         }
 
         if left.chars().nth(i+1).unwrap() != ']' {
-            return Ordering::Less;
+            return Ordering::Greater;
         }
 
         return cmp(&left[i+2..], &right[1..]);
@@ -155,7 +155,7 @@ fn cmp(left: &'static str, right: &'static str) -> Ordering {
 fn part1() -> usize {
     (1..)
         .zip(get_inputs())
-        .filter_map(|(i, x)| match cmp(x.0, x.1) { Ordering::Greater => Some(i), _ => None })
+        .filter_map(|(i, x)| match cmp(x.0, x.1) { Ordering::Less => Some(i), _ => None })
         .sum()
 }
 
@@ -163,7 +163,7 @@ fn part2() -> usize {
     std::iter::once(&("[[2]]", "[[6]]"))
         .chain(get_inputs().iter())
         .flat_map(|s| vec![s.0, s.1])
-        .sorted_by(|&a, &b| cmp(b, a))
+        .sorted_by(|&a, &b| cmp(a, b))
         .zip(1..)
         .filter_map(|(x, i)| match x { "[[2]]" | "[[6]]" => Some(i), _ => None})
         .product()
