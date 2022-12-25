@@ -160,12 +160,14 @@ fn part1() -> usize {
 }
 
 fn part2() -> usize {
-    std::iter::once(&("[[2]]", "[[6]]"))
+    const TWO: &str = "[[2]]";
+    const SIX: &str = "[[6]]";
+    std::iter::once(&(TWO, SIX))
         .chain(get_inputs().iter())
         .flat_map(|s| vec![s.0, s.1])
         .sorted_by(|&a, &b| cmp(a, b))
         .zip(1..)
-        .filter_map(|(x, i)| match x { "[[2]]" | "[[6]]" => Some(i), _ => None})
+        .filter_map(|(x, i)| match x { TWO | SIX => Some(i), _ => None})
         .product()
 }
 
